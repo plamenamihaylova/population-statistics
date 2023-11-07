@@ -16,12 +16,20 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.get("/api/", (req: Request, res: Response) => {
-    return res.send(cities)
+app.get("/api/cities", (req: Request, res: Response) => {
+    return res.send(cities);
+})
+
+app.get('/api/cities/density', (req: Request, res: Response) => {
+    const citiesWithDensity: ICity[] = cities.map((city) => {
+        let density = Math.floor(city.population / city.area)
+        return { ...city, density: density };
+    })
+    return res.send(citiesWithDensity);
 })
 
 app.get("/api/cities/filter/:searchTerm", (req: Request, res: Response) => {
-    const searchTerm = req.params.searchTerm
+    const searchTerm = req.params.searchTerm;
     const filteredCities = cities.reduce((accumulator: ICity[], city: ICity) => {
         if (city.name.toLowerCase().includes(searchTerm.toLowerCase())) {
             accumulator.push(city);
@@ -29,7 +37,7 @@ app.get("/api/cities/filter/:searchTerm", (req: Request, res: Response) => {
         return accumulator;
     }, [])
 
-    return res.send(filteredCities)
+    return res.send(filteredCities);
 })
 
 app.listen(port, () => {

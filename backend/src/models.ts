@@ -1,5 +1,6 @@
 export default interface ICity {
     name: string,
     area: number,
-    population: number
+    population: number,
+    density?: number,
 }
