@@ -32,11 +32,11 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     next()
 })
 
-app.get("/api/cities", getCities);
-app.get('/api/cities/density', getCitiesDensity);
-app.get('/api/cities/sort/:property/:order', getSortedCities);
-app.get("/api/cities/filter/:searchTerm", getFilteredCities);
-app.post("/api/cities/create", addNewCity)
+app.get("/", getCities);
+app.get('/density', getCitiesDensity);
+app.get('/sort/:property/:order', getSortedCities);
+app.get("/filter/:searchTerm", getFilteredCities);
+app.post("/add", addNewCity)
 
 app.use(errorHandler)
 app.use(undefinedRoutesHandler)
