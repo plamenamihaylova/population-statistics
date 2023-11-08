@@ -28,14 +28,12 @@ export const getSortedCities = (req: Request, res: Response, next: NextFunction)
     try {
         if (!(sortProperty in cities[0])) throw new Error("Invalid sorting parameter. Should be either 'name', 'population' or 'area'.")
         if (sortOrder !== ASCENDING && sortOrder !== DESCENDING) throw new Error(`Invalid sorting order. Should be either '${ASCENDING}' or '${DESCENDING}'.`)
-
         const sortedCities = sortCities(cities, sortOrder, sortProperty)
         res.send(sortedCities)
     } catch (err) {
         (err as any).type = 'invalid-query'
         next(err)
     }
-    next()
 }
 
 const sortCities = (cities: ICity[], sortOrder: string, sortProperty: keyof ICity): ICity[] => {
