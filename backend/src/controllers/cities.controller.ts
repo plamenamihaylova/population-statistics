@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import ICity from '../models';
 import fs from "fs/promises"
 import path from "path";
-import { BAD_POST_REQUEST_ERR_MSG, DATA_FILE } from "../constants";
+import { ASCENDING, BAD_POST_REQUEST_ERR_MSG, DATA_FILE, DESCENDING } from "../constants";
 
 export const getCities = (req: Request, res: Response) => {
     const cities: ICity[] = (req as any).cities;
@@ -27,7 +27,7 @@ export const getSortedCities = (req: Request, res: Response, next: NextFunction)
 
     try {
         if (!(sortProperty in cities[0])) throw new Error("Invalid sorting parameter. Should be either 'name', 'population' or 'area'.")
-        if (sortOrder !== 'asc' && sortOrder !== 'desc') throw new Error("Invalid sorting order. Should be either 'asc' or 'desc'.")
+        if (sortOrder !== ASCENDING && sortOrder !== DESCENDING) throw new Error(`Invalid sorting order. Should be either '${ASCENDING}' or '${DESCENDING}'.`)
 
         const sortedCities = sortCities(cities, sortOrder, sortProperty)
         res.send(sortedCities)
@@ -45,7 +45,7 @@ const sortCities = (cities: ICity[], sortOrder: string, sortProperty: keyof ICit
     return result.sort((city1, city2) => {
         const city1Value = city1[sortProperty] ?? '';
         const city2Value = city2[sortProperty] ?? '';
-        if (sortOrder === 'asc') {
+        if (sortOrder === ASCENDING) {
             return city1Value < city2Value ? -1 : 1;
         }
         return city1Value < city2Value ? 1 : -1;
