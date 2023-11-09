@@ -15,6 +15,7 @@ import {
 })
 export class MainComponent {
   cities: ICity[] = [];
+  columnsToDisplay = ['name', 'area', 'population', 'density'];
 
   constructor(
     private citiesService: CitiesService,
@@ -26,13 +27,16 @@ export class MainComponent {
       if (params['property'] && params['order']) {
         const { property, order } = params;
         if (validateSortProperty(property) && validateSortOrder(order)) {
-          citiesObservable = this.citiesService.getSortedCities(property,order);
+          citiesObservable = this.citiesService.getSortedCities(
+            property,
+            order
+          );
         } else this.router.navigateByUrl('/not-found');
       } else if (params['term']) {
         const { term } = params;
         citiesObservable = this.citiesService.getFilteredCities(term);
       } else {
-        citiesObservable = this.citiesService.getAllCities();
+        citiesObservable = this.citiesService.getCitiesDensity();
       }
       citiesObservable.subscribe((cities) => {
         this.cities = cities;

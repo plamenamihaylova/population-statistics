@@ -1,0 +1,10 @@
+.mat-mdc-header-row,
+.mat-mdc-cell {
+  font-family: "Montserrat", sans-serif;
+}
+
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  font-weight: bold;
+}
