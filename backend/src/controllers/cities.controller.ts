@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import ICity from '../models';
 import fs from "fs/promises"
 import path from "path";
-import { ASCENDING, BAD_POST_REQUEST_ERR_MSG, DATA_FILE, DESCENDING } from "../constants";
+import { ADD_NEW_CITY_ERR_MSG, ASCENDING, BAD_POST_REQUEST_ERR_MSG, BAD_REQUEST, DATA_FILE, DESCENDING, INVALID_SORT_ORDER_ERR_MSG, INVALID_SORT_PROPERTY_ERR_MSG } from "../constants";
+import log from '../utils/logger';
 
 export const getCities = (req: Request, res: Response) => {
     const cities: ICity[] = (req as any).cities;
@@ -13,7 +14,7 @@ export const getCitiesDensity = (req: Request, res: Response) => {
     const cities: ICity[] = (req as any).cities;
 
     const citiesWithDensity: ICity[] = cities.map((city) => {
-        let density = Math.floor(city.population / city.area)
+        const density = Math.floor(city.population / city.area);
         return { ...city, density: density };
     })
     res.send(citiesWithDensity);
@@ -22,23 +23,27 @@ export const getCitiesDensity = (req: Request, res: Response) => {
 export const getSortedCities = (req: Request, res: Response, next: NextFunction) => {
     const cities: ICity[] = (req as any).cities;
 
-    const sortProperty: keyof ICity | any = req.params.property
-    const sortOrder: string = req.params.order
+    const sortProperty: keyof ICity | any = req.params.property;
+    const sortOrder: string = req.params.order;
 
     try {
-        if (!(sortProperty in cities[0])) throw new Error("Invalid sorting parameter. Should be either 'name', 'population' or 'area'.")
-        if (sortOrder !== ASCENDING && sortOrder !== DESCENDING) throw new Error(`Invalid sorting order. Should be either '${ASCENDING}' or '${DESCENDING}'.`)
-        const sortedCities = sortCities(cities, sortOrder, sortProperty)
-        res.send(sortedCities)
-    } catch (err) {
-        (err as any).type = 'invalid-query'
-        next(err)
+        if (!(sortProperty in cities[0])) {
+            throw new Error(INVALID_SORT_PROPERTY_ERR_MSG);
+        }
+        if (sortOrder !== ASCENDING && sortOrder !== DESCENDING) {
+            throw new Error(INVALID_SORT_ORDER_ERR_MSG);
+        }
+        const sortedCities = sortCities(cities, sortOrder, sortProperty);
+        res.send(sortedCities);
+    } catch (err: any) {
+        res.status(400).send({ error: BAD_REQUEST, message: err.message });
+        log.error(err.message);
     }
 }
 
 const sortCities = (cities: ICity[], sortOrder: string, sortProperty: keyof ICity): ICity[] => {
     // make a deep copy of cities, so that sorting don't change global cities param
-    const result: ICity[] = JSON.parse(JSON.stringify(cities))
+    const result: ICity[] = JSON.parse(JSON.stringify(cities));
 
     return result.sort((city1, city2) => {
         const city1Value = city1[sortProperty] ?? '';
@@ -67,18 +72,22 @@ export const getFilteredCities = (req: Request, res: Response, next: NextFunctio
 export const addNewCity = async (req: Request, res: Response, next: NextFunction) => {
     const cities: ICity[] = (req as any).cities;
     const { name, area, population } = req.body;
-    const requiredParams = [name, area, population]
+    const requiredParams = [name, area, population];
 
     try {
         if (requiredParams.includes(undefined)) throw new Error(BAD_POST_REQUEST_ERR_MSG)
         const newCity = { name: name, area: area, population: population };
         cities.push(newCity)
-        await fs.writeFile(path.join(__dirname, '..', DATA_FILE), JSON.stringify(cities, null, 1))
-        res.send(newCity)
-    } catch (err) {
-        if ((err as any).message === BAD_POST_REQUEST_ERR_MSG)
-            (err as any).type = 'bad-request'
-        next(err)
+        await fs.writeFile(path.join(__dirname, '..', DATA_FILE), JSON.stringify(cities, null, 1));
+        res.send(newCity);
+    } catch (err: any) {
+        if (err.message === BAD_POST_REQUEST_ERR_MSG) {
+            res.status(400).send({ error: BAD_REQUEST, message: err.message });
+            log.error(err.message);
+        } else {
+            res.status(500).send({ error: err.name, message: ADD_NEW_CITY_ERR_MSG });
+            log.error(ADD_NEW_CITY_ERR_MSG);
+        }
     }
 }
 
