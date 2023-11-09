@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CitiesService } from 'src/app/services/cities.service';
 import ICity from 'src/app/shared/models';
-import {
-  validateSortOrder,
-  validateSortProperty,
-} from 'src/app/utils/validate.params';
 
 @Component({
   selector: 'app-main',
@@ -17,30 +12,11 @@ export class MainComponent {
   cities: ICity[] = [];
   columnsToDisplay = ['name', 'area', 'population', 'density'];
 
-  constructor(
-    private citiesService: CitiesService,
-    activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private citiesService: CitiesService) {
     let citiesObservable: Observable<ICity[]>;
-    activatedRoute.params.subscribe((params) => {
-      if (params['property'] && params['order']) {
-        const { property, order } = params;
-        if (validateSortProperty(property) && validateSortOrder(order)) {
-          citiesObservable = this.citiesService.getSortedCities(
-            property,
-            order
-          );
-        } else this.router.navigateByUrl('/not-found');
-      } else if (params['term']) {
-        const { term } = params;
-        citiesObservable = this.citiesService.getFilteredCities(term);
-      } else {
-        citiesObservable = this.citiesService.getCitiesDensity();
-      }
-      citiesObservable.subscribe((cities) => {
-        this.cities = cities;
-      });
+    citiesObservable = this.citiesService.getCities();
+    citiesObservable.subscribe((cities) => {
+      this.cities = cities;
     });
   }
 }
