@@ -5,5 +5,5 @@ import log from "./utils/logger";
 const app = createServer();
 
 app.listen(PORT, () => {
-    log.info(`Population statistics server started on http://localhost:${PORT}`);
-})
+  log.info(`Population statistics server started on http://localhost:${PORT}`);
+});

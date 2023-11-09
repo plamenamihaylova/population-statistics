@@ -1,11 +1,11 @@
 export const PORT: number = 3000;
 export const DATA_FILE: string = "cities.json";
-export const ENCODING:BufferEncoding = "utf-8";
+export const ENCODING: BufferEncoding = "utf-8";
 export const ASCENDING: string = "asc";
 export const DESCENDING: string = "desc";
 export const BAD_REQUEST: string = "Bad Request";
 export const BAD_POST_REQUEST_ERR_MSG = "Cannot add new city. Missing parameter(s).";
 export const RETRIEVING_DATA_ERR_MSG = "An error occurred while retrieving the data.";
-export const ADD_NEW_CITY_ERR_MSG = "Couldn't add the new city. Try again."
+export const ADD_NEW_CITY_ERR_MSG = "Couldn't add the new city. Try again.";
 export const INVALID_SORT_PROPERTY_ERR_MSG = "Invalid sorting parameter. Should be either 'name', 'population' or 'area'.";
 export const INVALID_SORT_ORDER_ERR_MSG = `Invalid sorting order. Should be either '${ASCENDING}' or '${DESCENDING}'.`;
