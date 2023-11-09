@@ -4,3 +4,5 @@ export default interface ICity {
     population: number,
     density?: number,
 }
+
+export const appropriateSortProperties = ['name', 'area', 'property'];
