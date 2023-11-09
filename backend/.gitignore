@@ -130,5 +130,4 @@ dist
 .pnp.*
 
 coverage
-jest.config.js
 dist
