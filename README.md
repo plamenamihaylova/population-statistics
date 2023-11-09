@@ -39,7 +39,10 @@ Supported Endpoints:
 #### Frontend
 Navigate to backend directory and run:\
 `npm install` \
+if angular CLI is present on the machine:
 `ng serve` or `ng serve -o`\
+otherwise:
+`npm run start`
 This command will start the frontend application on http://localhost:4200.
 
 Supported routes:
