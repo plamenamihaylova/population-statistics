@@ -1,0 +1,40 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--grey-700);
+    color: var(--grey-100);
+  }
+  
+  .container__header {
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .container__subheader {
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .container__text {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+  }
+  
+  .container__action {
+      display: flex;
+      justify-content: center;
+  }
+  
+  .container__action button {
+    font-size: 1.2rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    height: auto;
+  }
