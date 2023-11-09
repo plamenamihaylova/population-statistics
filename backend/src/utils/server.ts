@@ -12,35 +12,42 @@ import log from "./logger";
 let cities: ICity[] = [];
 
 const createServer = () => {
-    const app = express();
+  const app = express();
 
-    // app.use(express.json());
+  // app.use(express.json());
 
-    app.use(bodyParser.json());
-    //app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.json());
+  //app.use(bodyParser.urlencoded({extended: true}));
 
-    app.use(cors());
+  app.use(cors());
 
-    app.use(async (req: Request, res: Response, next: NextFunction) => {
-        if (cities.length === 0) {
-            try {
-                cities = JSON.parse(await fs.readFile(path.join(__dirname, '..', DATA_FILE), ENCODING));
-            } catch (err: any) {
-                res.status(500).send({ error: err.name, message: RETRIEVING_DATA_ERR_MSG });
-                log.error(err.message);
-            }
-        }
-        (req as any)['cities'] = cities;
-        next();
-    })
+  app.use(async (req: Request, res: Response, next: NextFunction) => {
+    if (cities.length === 0) {
+      try {
+        let data: ICity[] = JSON.parse(
+          await fs.readFile(path.join(__dirname, "..", DATA_FILE), ENCODING)
+        );
+        cities = data.map((item) => {
+          const density = Math.floor(item.population / item.area);
+          return { ...item, density: density };
+        });
+      } catch (err: any) {
+        res
+          .status(500)
+          .send({ error: err.name, message: RETRIEVING_DATA_ERR_MSG });
+        log.error(err.message);
+      }
+    }
+    (req as any)["cities"] = cities;
+    next();
+  });
 
+  routes(app);
 
-    routes(app);
+  app.use(undefinedRoutesHandler);
+  app.use(defaultErrorHandler);
 
-    app.use(undefinedRoutesHandler);
-    app.use(defaultErrorHandler);
-
-    return app;
-}
+  return app;
+};
 
 export default createServer;
