@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: var(--grey-700);
+    background-color: var(--accent-900);
     color: var(--grey-100);
   }
   

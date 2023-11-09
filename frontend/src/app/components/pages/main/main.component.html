@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="cities" class="mat-elevation-z8">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <th mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let city">{{ city.name }}</td>
   </ng-container>
   <ng-container matColumnDef="area">
@@ -19,6 +19,6 @@
   <tr 
     mat-row 
     *matRowDef="let myRowData; columns: columnsToDisplay"
-    [ngStyle]="{backgroundColor: myRowData.population > 1000000 ? '#9BBEC8' : 'white'}"
+    [ngStyle]="{backgroundColor: myRowData.population > 1000000 ? '#D2E2E2' : 'white'}"
   ></tr>
 </table>

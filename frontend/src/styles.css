@@ -9,46 +9,41 @@
   font-family: inherit;
 }
 
-html {
-  font-size: 100%;
+:root {
+  --white: #fff;
+  --accent-900: #3f7c88;
+  --accent-100: #d2e2e2;
+  --grey-100: #dadada;
+  --grey-900: #303030;
+  --border-radius: 1rem;
 }
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
-:root {
-  /* colors */
-  --white: #fff;
-  --accent-900: #164863;
-  --accent-700: #427D9D;
-  --accent-300: #9BBEC8;
-  --accent-100: #DDF2FD;
-  --grey-100: #dadada;
-  --grey-300: #b6b5b5;
-  --grey-500: #929191;
-  --grey-600: #6d6c6c;
-  --grey-700: #494848;
-  --grey-900: #303030;
-
-  --border-radius: 1rem;
-  --shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+html {
+  font-size: 100%;
 }
 
 body {
   font-family: "Montserrat", sans-serif;
   background-color: var(--white);
-  color: var(--grey-900);
   font-weight: 400;
 }
 
 button {
-    margin: 0.1rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    border-radius: var(--border-radius);
-    background-color: var(--grey-100);
-    color: var(--grey-900);
-  }
-  
-  button:hover {
-    background-color: var(--accent-100);
-  }
+  margin: 0.1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: var(--grey-100);
+  color: var(--grey-900);
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+button:hover {
+  background-color: var(--accent-100);
+  border: none;
+}

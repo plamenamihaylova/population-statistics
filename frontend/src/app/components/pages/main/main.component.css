@@ -1,3 +1,12 @@
+.mat-table {
+  font-size: 1rem;
+}
+
+/* uncomment if vertical lines are required */
+/* .mat-column-name, .mat-column-area, .mat-column-population {
+  border-right: 1px solid var(--grey-100);
+} */
+
 .mat-mdc-header-row,
 .mat-mdc-cell {
   font-family: "Montserrat", sans-serif;
@@ -7,4 +16,7 @@
   position: sticky;
   top: 0;
   font-weight: bold;
+  background-color: var(--accent-900);
+  color: var(--white);
+  font-size: 1.2rem;
 }
