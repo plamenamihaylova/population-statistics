@@ -14,11 +14,7 @@ let cities: ICity[] = [];
 const createServer = () => {
   const app = express();
 
-  // app.use(express.json());
-
   app.use(bodyParser.json());
-  //app.use(bodyParser.urlencoded({extended: true}));
-
   app.use(cors());
 
   app.use(async (req: Request, res: Response, next: NextFunction) => {
@@ -27,10 +23,13 @@ const createServer = () => {
         let data: ICity[] = JSON.parse(
           await fs.readFile(path.join(__dirname, "..", DATA_FILE), ENCODING)
         );
-        cities = data.map((item) => {
-          const density = Math.floor(item.population / item.area);
-          return { ...item, density: density };
-        });
+        if ("density" in data[0]) cities = data;
+        else {
+          cities = data.map((item) => {
+            const density = Math.floor(item.population / item.area);
+            return { ...item, density: density };
+          });
+        }
       } catch (err: any) {
         res
           .status(500)
