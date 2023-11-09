@@ -4,6 +4,9 @@ Application that is working with a `json` file as a database.\
 Will refer the json file as the database of the application.
 
 ### Starting the project:
+Prerequisites:
+`node` and `npm` installed on the machine.
+
 Clone the project. \
 Navigate to its directory.
 
@@ -37,20 +40,19 @@ Supported Endpoints:
 ---
 
 #### Frontend
-Navigate to backend directory and run:\
+
+Navigate to frontend directory and run:\
 `npm install` \
 if angular CLI is present on the machine:
 `ng serve` or `ng serve -o`\
-otherwise:
-`npm run start`
+otherwise run:
+`npm run start`\
 This command will start the frontend application on http://localhost:4200.
 
 Supported routes:
 - `/` \
 displays a table with all the cities that are currently available in the backend's database, \
 the cities with population over a million will be highlighted
-
----
 
 #### ❗The UI will not display any data unless the backend is also running.
 
