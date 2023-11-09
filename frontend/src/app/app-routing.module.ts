@@ -5,9 +5,6 @@ import { NotFoundComponent } from './components/pages/not-found/not-found.compon
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'density', component: MainComponent },
-  { path: 'sort/:property/:order', component: MainComponent },
-  { path: 'filter/:term', component: MainComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
