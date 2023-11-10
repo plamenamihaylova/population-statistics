@@ -8,9 +8,9 @@ import {
 
 const routes = (app: Express) => {
   app.get("/", getCities);
+  app.post("/", addNewCity);
   app.get("/sort/:property/:order", getSortedCities);
-  app.get("/filter/:searchTerm", getFilteredCities);
-  app.post("/add", addNewCity);
+  app.get("/contains/:searchTerm", getFilteredCities);
 };
 
 export default routes;

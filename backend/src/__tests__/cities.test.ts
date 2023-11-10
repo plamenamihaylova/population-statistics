@@ -113,8 +113,8 @@ describe("GET /sort/:property/:order", () => {
   });
 });
 
-describe("GET /filter/:searchTerm", () => {
-  it("Should get cities filtered by name according to search term", async () => {
+describe("GET /contains/:searchTerm", () => {
+  it("Should get cities filtered by names containing the search term", async () => {
     const expectedResult = {
       name: "New York",
       area: 468.9,
@@ -122,7 +122,7 @@ describe("GET /filter/:searchTerm", () => {
       density: 17911,
     };
     await supertest(app)
-      .get("/filter/New%20York")
+      .get("/contains/New%20York")
       .expect(200)
       .expect([expectedResult]);
   });
@@ -135,19 +135,19 @@ describe("GET /filter/:searchTerm", () => {
     const expectedResult = helper.filter((item) => {
       if (item.name.toLowerCase().includes("ne")) return item;
     });
-    await supertest(app).get("/filter/ne").expect(200).expect(expectedResult);
+    await supertest(app).get("/contains/ne").expect(200).expect(expectedResult);
   });
 
-  it("Should get no cities if filtered by non-existent city name", async () => {
-    await supertest(app).get("/filter/test").expect(200).expect([]);
+  it("Should get no cities if filtering by non-existent city name", async () => {
+    await supertest(app).get("/contains/test").expect(200).expect([]);
   });
 
   it("Should get error if search term is not specified", async () => {
     const expectedError = {
       error: "Error",
-      message: "Not Found - GET /filter/",
+      message: "Not Found - GET /contains/",
     };
-    await supertest(app).get("/filter/").expect(404).expect(expectedError);
+    await supertest(app).get("/contains/").expect(404).expect(expectedError);
   });
 });
 
@@ -162,7 +162,7 @@ describe("POST /add", () => {
       message: BAD_POST_REQUEST_ERR_MSG,
     };
     await supertest(app)
-      .post("/add")
+      .post("/")
       .send(payload)
       .expect(400)
       .expect(expectedError);
