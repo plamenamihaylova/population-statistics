@@ -4,7 +4,7 @@ import {
   getCities,
   getFilteredCities,
   getSortedCities,
-} from "./controllers/cities.controller";
+} from "../controllers/cities.controller";
 
 const routes = (app: Express) => {
   app.get("/", getCities);

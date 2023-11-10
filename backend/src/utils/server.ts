@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs/promises";
 import path from "path";
-import routes from "../routes";
+import routes from "../routes/cities.routes";
 import { DATA_FILE, ENCODING, RETRIEVING_DATA_ERR_MSG } from "../constants";
 import { defaultErrorHandler, undefinedRoutesHandler } from "../errorHandlers";
 import ICity from "../models";
