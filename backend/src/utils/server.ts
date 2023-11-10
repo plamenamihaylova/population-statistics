@@ -15,7 +15,7 @@ const createServer = () => {
   const app = express();
 
   app.use(bodyParser.json());
-  app.use(cors());
+  app.use(cors({ origin: "http://localhost:4200" }));
 
   app.use(async (req: Request, res: Response, next: NextFunction) => {
     if (cities.length === 0) {
